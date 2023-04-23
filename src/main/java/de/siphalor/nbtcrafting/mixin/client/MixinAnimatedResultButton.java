@@ -22,9 +22,9 @@ import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.recipebook.AnimatedResultButton;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -47,19 +47,19 @@ public abstract class MixinAnimatedResultButton extends ClickableWidget {
 
 	@Inject(
 			method = "renderButton",
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderInGui(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/item/ItemStack;II)V"),
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawableHelper;method_51445(Lnet/minecraft/item/ItemStack;II)V"),
 			locals = LocalCapture.CAPTURE_FAILSOFT
 	)
-	private void beforeItemDrawn(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci, MinecraftClient minecraftClient, int int_3, int int_4, boolean boolean_1, @SuppressWarnings("rawtypes") List list_1, ItemStack stack, int offset) {
+	private void beforeItemDrawn(DrawableHelper drawableHelper, int mouseX, int mouseY, float delta, CallbackInfo ci, MinecraftClient minecraftClient, int int_3, int int_4, boolean boolean_1, @SuppressWarnings("rawtypes") List list_1, ItemStack stack, int offset) {
 		itemDrawOffset = offset;
 	}
 
 	@Inject(
 			method = "renderButton",
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderInGui(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/item/ItemStack;II)V", shift = Shift.AFTER),
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawableHelper;method_51445(Lnet/minecraft/item/ItemStack;II)V", shift = Shift.AFTER),
 			locals = LocalCapture.CAPTURE_FAILSOFT
 	)
-	private void drawButton(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci, MinecraftClient minecraftClient, int int_3, int int_4, boolean boolean_1, @SuppressWarnings("rawtypes") List list_1, ItemStack stack) {
-		minecraftClient.getItemRenderer().renderGuiItemOverlay(matrices, minecraftClient.textRenderer, stack, this.getX() + itemDrawOffset, this.getY() + itemDrawOffset);
+	private void drawButton(DrawableHelper drawableHelper, int mouseX, int mouseY, float delta, CallbackInfo ci, MinecraftClient minecraftClient, int int_3, int int_4, boolean boolean_1, @SuppressWarnings("rawtypes") List list_1, ItemStack stack) {
+		drawableHelper.method_51427(stack, this.getX() + itemDrawOffset, this.getY() + itemDrawOffset);
 	}
 }
