@@ -57,6 +57,7 @@ dependencies {
 
 //sourceSets.main.java.exclude("de/siphalor/nbtcrafting/compat/**/*REI*")
 
+
 license {
 	header = project.file('LICENSE_HEADER')
 
