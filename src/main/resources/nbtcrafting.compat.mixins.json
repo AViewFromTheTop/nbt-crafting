@@ -2,7 +2,7 @@
 	"required": false,
 	"package": "de.siphalor.nbtcrafting.compat.mixin",
 	"plugin": "de.siphalor.nbtcrafting.compat.NbtCCompatMixinConfig",
-	"compatibilityLevel": "JAVA_8",
+	"compatibilityLevel": "JAVA_17",
 	"mixins": [
 		"MixinREIRecipeFinder"
 	],
