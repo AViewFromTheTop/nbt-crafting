@@ -21,7 +21,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.class_8566;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -107,9 +107,9 @@ public abstract class MixinShapedRecipe {
 		ci.setReturnValue(stack);
 	}
 
-	@Inject(method = "craft(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;", at = @At("HEAD"), cancellable = true)
-	public void craft(CraftingInventory craftingInventory, DynamicRegistryManager registryManager, CallbackInfoReturnable<ItemStack> callbackInfoReturnable) {
-		ItemStack result = RecipeUtil.getDollarAppliedResult(output, input, craftingInventory);
+	@Inject(method = "Lnet/minecraft/recipe/ShapedRecipe;craft(Lnet/minecraft/class_8566;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;", at = @At("HEAD"), cancellable = true)
+	public void craft(class_8566 arg, DynamicRegistryManager registryManager, CallbackInfoReturnable<ItemStack> callbackInfoReturnable) {
+		ItemStack result = RecipeUtil.getDollarAppliedResult(output, input, arg);
 		if (result != null) callbackInfoReturnable.setReturnValue(result);
 	}
 }
