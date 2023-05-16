@@ -196,7 +196,7 @@ public abstract class MixinIngredient implements IIngredient, ICloneable {
 	}
 
 	@Inject(method = "fromJson", at = @At("HEAD"), cancellable = true)
-	private static void fromJson(JsonElement element, CallbackInfoReturnable<Ingredient> callbackInfoReturnable) {
+	private static void fromJson(JsonElement element, boolean bl, CallbackInfoReturnable<Ingredient> callbackInfoReturnable) {
 		if (element == null || element.isJsonNull()) {
 			throw new JsonSyntaxException("Item cannot be null");
 		}
@@ -218,10 +218,11 @@ public abstract class MixinIngredient implements IIngredient, ICloneable {
 			}
 
 			if (containsCustomData) {
-				if (jsonArray.size() == 0) {
+				if (jsonArray.size() == 0 && !bl) {
 					throw new JsonSyntaxException("Item array cannot be empty, at least one item must be defined");
+				} else {
+					callbackInfoReturnable.setReturnValue(ofAdvancedEntries(StreamSupport.stream(jsonArray.spliterator(), false).map(e -> advancedEntryFromJson(JsonHelper.asObject(e, "item")))));
 				}
-				callbackInfoReturnable.setReturnValue(ofAdvancedEntries(StreamSupport.stream(jsonArray.spliterator(), false).map(e -> advancedEntryFromJson(JsonHelper.asObject(e, "item")))));
 			}
 		}
 	}

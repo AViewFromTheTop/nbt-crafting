@@ -100,9 +100,9 @@ public abstract class MixinAnvilContainer extends ForgingScreenHandler {
 		}
 	}
 
-	@Inject(method = "setNewItemName", at = @At("HEAD"))
-	public void onNewItemNameSet(String newNewItemName, CallbackInfo callbackInfo) {
-		userChangedName = true;
+	@Inject(method = "setNewItemName", at = @At("RETURN"))
+	public void onNewItemNameSet(String string, CallbackInfoReturnable<Boolean> cir) {
+		userChangedName = cir.getReturnValue();
 	}
 
 	@Inject(
